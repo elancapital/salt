@@ -197,6 +197,8 @@ def object_to_dict(obj):
                     ret[item] = obj.__dict__[item].encode('ascii', 'replace')
                 else:
                     ret[item] = obj.__dict__[item]
+            except KeyError:
+                pass
             except AttributeError:
                 ret[item] = obj.get(item)
     return ret
