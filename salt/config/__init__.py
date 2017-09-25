@@ -3037,6 +3037,13 @@ def get_cloud_config_value(name, vm_, opts, default=None, search_global=True):
 
     # As a last resort, return the default
     value = default
+    
+    if 'profiles' in vm_:
+        # Support structure with profiles but no profile key
+        for profile in vm_['profiles']:
+            for profile_detail in profile.values():
+                if name in profile_detail:
+                    value = deepcopy(profile_detail[name])
 
     if search_global is True and opts.get(name, None) is not None:
         # The setting name exists in the cloud(global) configuration
