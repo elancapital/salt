@@ -3069,7 +3069,7 @@ def get_cloud_config_value(name, vm_, opts, default=None, search_global=True):
     if 'profiles' in vm_:
         # Support structure with profiles but no profile key
         for profile in vm_['profiles']:
-		    for profile_detail in vm_['profiles'].values():
+            for profile_detail in vm_['profiles'].values():
                 if type(profile_detail) is dict:
                     if name in profile_detail:
                         value = deepcopy(profile_detail[name])
