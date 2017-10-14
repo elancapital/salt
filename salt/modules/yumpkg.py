@@ -857,8 +857,8 @@ def list_repo_pkgs(*args, **kwargs):
                 _parse_output(out['stdout'], strict=True)
     else:
         for repo in repos:
-            cmd = [_yum(), '--quiet', 'repository-packages', repo,
-                   'list', '--showduplicates']
+            cmd = [_yum(), '--quiet', '--showduplicates',
+                   'repository-packages', repo, 'list']
             if cacheonly:
                 cmd.append('-C')
             # Can't concatenate because args is a tuple, using list.extend()
@@ -1262,6 +1262,7 @@ def install(name=None,
     to_install = []
     to_downgrade = []
     to_reinstall = []
+    _available = {}
     # The above three lists will be populated with tuples containing the
     # package name and the string being used for this particular package
     # modification. The reason for this method is that the string we use for
@@ -1281,7 +1282,8 @@ def install(name=None,
     if pkg_type == 'repository':
         has_wildcards = [x for x, y in six.iteritems(pkg_params)
                          if y is not None and '*' in y]
-        _available = list_repo_pkgs(*has_wildcards, byrepo=False, **kwargs)
+        if has_wildcards:
+            _available = list_repo_pkgs(*has_wildcards, byrepo=False, **kwargs)
         pkg_params_items = six.iteritems(pkg_params)
     elif pkg_type == 'advisory':
         pkg_params_items = []
@@ -2723,7 +2725,7 @@ def _parse_repo_file(filename):
 
     for section in parsed._sections:
         section_dict = dict(parsed._sections[section])
-        section_dict.pop('__name__')
+        section_dict.pop('__name__', None)
         config[section] = section_dict
 
     # Try to extract leading comments

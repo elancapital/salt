@@ -674,7 +674,7 @@ Note these can be defined in the pillar for a minion as well.
 
 Default: ``60``
 
-The number of seconds a mine update runs.
+The number of minutes between mine updates.
 
 .. code-block:: yaml
 
@@ -2337,11 +2337,14 @@ Thread Settings
 
 .. conf_minion:: multiprocessing
 
+``multiprocessing``
+-------
+
 Default: ``True``
 
-If `multiprocessing` is enabled when a minion receives a
+If ``multiprocessing`` is enabled when a minion receives a
 publication a new process is spawned and the command is executed therein.
-Conversely, if `multiprocessing` is disabled the new publication will be run
+Conversely, if ``multiprocessing`` is disabled the new publication will be run
 executed in a thread.
 
 
